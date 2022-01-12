@@ -2,7 +2,7 @@
 
 # class TODO
 class TODO
-  attr_accessor :client, :users, :a
+  attr_accessor :client, :users
 
   def initialize
     @client = Mysql2::Client.new(
@@ -138,6 +138,7 @@ class TODO
           4. Complete a todo
           5. Statistics
           6.Add User
+          7.Search TOdos
     Enter the Options:-)
     gets.chomp
   end
@@ -156,6 +157,15 @@ class TODO
     todos.each do |i|
       # puts i['task_id']
       puts "#{i['todo_id']}\t #{i['todo']}\t#{i['date_to_be_completed']}\t#{i['remaining_days']} \t #{i['status']}"
+    end
+  end
+
+  def search_todos
+    print 'Enter the keyword to be search '
+    key = gets.chomp
+    todos = client.query("select * from todo_tbl where todo like '%#{key}%' order by remaining_days ASC")
+    todos.each do |todo|
+      puts "#{todo['todo_id']}\t #{todo['todo']}\t#{todo['date_to_be_completed']}\t#{todo['remaining_days']} \t #{todo['status']}"
     end
   end
 end

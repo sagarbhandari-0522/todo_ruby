@@ -56,6 +56,13 @@ if auth == 'success'
         puts e.message
         retry
       end
+    when 7
+      begin
+        a.search_todos
+      rescue StandardError => e
+        puts e.message
+        retry
+      end
     else
       puts 'inavlid options'
     end
